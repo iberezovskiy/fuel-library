@@ -99,6 +99,7 @@ class openstack::controller (
   $ceilometer_db_type             = 'mongodb',
   $ceilometer_db_host             = '127.0.0.1',
   $swift_rados_backend            = false,
+  $zookeeper_hosts                = undef,
   # Required Horizon
   $secret_key                     = 'dummy_secret_key',
   # not sure if this works correctly
@@ -526,6 +527,7 @@ class openstack::controller (
       on_controller        => true,
       use_neutron          => $neutron,
       swift                => $swift,
+      zookeeper_hosts      => $zookeeper_hosts,
     }
   }
 

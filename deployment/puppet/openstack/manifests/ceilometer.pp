@@ -31,6 +31,7 @@ class openstack::ceilometer (
   $primary_controller  = false,
   $use_neutron         = false,
   $swift               = false,
+  $zookeeper_hosts     = undef,
 ) {
 
   # Add the base ceilometer class & parameters
@@ -214,5 +215,12 @@ class openstack::ceilometer (
     }
     ceilometer_config { 'service_credentials/os_endpoint_type': value => 'internalURL'} ->
     Service<| title == 'ceilometer-agent-compute'|>
+  }
+
+  if ($zookeeper_hosts) {
+    ceilometer_config {
+      'coordination/backend_url' : value => $zookeeper_hosts;
+      'coordination/heartbeat'   : value => '1.0';
+    }
   }
 }

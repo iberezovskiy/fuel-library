@@ -324,6 +324,24 @@ class osnailyfacter::cluster_ha {
   $mirror_type = 'external'
   Exec { logoutput => true }
 
+  if $ceilometer_hash['enabled'] {
+    #$zookeepers = filter_nodes($nodes_hash,'role','zookeeper')
+    #$zookeeper_internal_addresses = nodes_to_hash($zookeepers,'name','internal_address')
+    #$zookeeper_nodes = ipsort(values($zookeeper_internal_addresses))
+
+    # OR
+    $zookeeper_nodes = fqdn_rotate($controller_nodes)
+
+    $zookeeper_ports = '2888:3888'
+    $zookeeper_hosts = inline_template("<%= @zookeeper_nodes.map {|x| x + ':' + @zookeeper_ports}.join ',' %>")
+
+    class { 'zookeeper':
+      servers   => $zookeeper_hosts,
+      client_ip => $::fuel_settings['management_vip'],
+      id        => $::fuel_settings['uid'],
+    }
+  }
+
   class compact_controller (
     $primary_controller,
   ) {
@@ -404,6 +422,7 @@ class osnailyfacter::cluster_ha {
       ceilometer_db_type             => 'mongodb',
       ceilometer_db_host             => mongo_hosts($nodes_hash),
       swift_rados_backend            => $::osnailyfacter::cluster_ha::storage_hash['objects_ceph'],
+      zookeeper_hosts                => $::osnailyfacter::cluster_ha::zookeeper_hosts,
       galera_nodes                   => $::osnailyfacter::cluster_ha::controller_nodes,
       novnc_address                  => $::internal_address,
       sahara                         => $::osnailyfacter::cluster_ha::sahara_hash[enabled],
@@ -905,6 +924,14 @@ class osnailyfacter::cluster_ha {
         verbose                     => $verbose,
       }
     } # PRIMARY-MONGO ENDS
+
+    #"zookeeper" : {
+    #  class { 'zookeeper':
+    #    servers   => zookeeper_hosts($nodes_hash, 'array', 'zookeeper'),
+    #    client_ip => $::fuel_settings['management_vip'],
+    #    id        => $::fuel_settings['uid'],
+    #  }
+    #}
 
     "cinder" : {
       include keystone::python
