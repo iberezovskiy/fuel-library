@@ -20,7 +20,7 @@ class zookeeper::install(
 
   case $::osfamily {
     'RedHat': {
-      $cron_package_name = 'cronie'
+      $cron_package_name = 'crontabs'
       if !defined(Package['zookeeper']) {
         package { ['zookeeper']:
           ensure => $ensure

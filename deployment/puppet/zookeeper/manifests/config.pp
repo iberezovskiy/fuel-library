@@ -77,7 +77,17 @@ class zookeeper::config(
 
   file { "${cfg_dir}/myid":
     ensure  => file,
-    content => template('zookeeper/conf/myid.erb'),
+    content => template('zookeeper/myid.erb'),
+    owner   => $user,
+    group   => $group,
+    mode    => '0644',
+    require => File[$cfg_dir],
+    notify  => Class['zookeeper::service'],
+  }
+
+  file { "${datastore}/myid":
+    ensure  => file,
+    content => template('zookeeper/myid.erb'),
     owner   => $user,
     group   => $group,
     mode    => '0644',
@@ -89,7 +99,7 @@ class zookeeper::config(
     owner   => $user,
     group   => $group,
     mode    => '0644',
-    content => template('zookeeper/conf/zoo.cfg.erb'),
+    content => template('zookeeper/zoo.cfg.erb'),
     notify  => Class['zookeeper::service'],
   }
 
@@ -97,7 +107,7 @@ class zookeeper::config(
     owner   => $user,
     group   => $group,
     mode    => '0644',
-    content => template('zookeeper/conf/environment.erb'),
+    content => template('zookeeper/environment.erb'),
     notify  => Class['zookeeper::service'],
   }
 
@@ -105,7 +115,7 @@ class zookeeper::config(
     owner   => $user,
     group   => $group,
     mode    => '0644',
-    content => template('zookeeper/conf/log4j.properties.erb'),
+    content => template('zookeeper/log4j.properties.erb'),
     notify  => Class['zookeeper::service'],
   }
 
