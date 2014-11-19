@@ -332,8 +332,8 @@ class osnailyfacter::cluster_ha {
     # OR
     $zookeeper_nodes = fqdn_rotate($controller_nodes)
 
-    $zookeeper_ports = '2888:3888'
-    $zookeeper_hosts = inline_template("<%= @zookeeper_nodes.map {|x| x + ':' + @zookeeper_ports}.join ',' %>")
+    #$zookeeper_ports = '2888:3888'
+    #$zookeeper_hosts = inline_template("<%= @zookeeper_nodes.map {|x| x + ':' + @zookeeper_ports}.join ',' %>")
 
     class { 'zookeeper':
       servers   => $zookeeper_hosts,
