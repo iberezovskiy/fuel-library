@@ -330,7 +330,7 @@ class osnailyfacter::cluster_ha {
     #$zookeeper_nodes = ipsort(values($zookeeper_internal_addresses))
 
     # OR
-    $zookeeper_nodes = fqdn_rotate($controller_nodes)
+    $zookeeper_hosts = fqdn_rotate($controller_nodes)
 
     #$zookeeper_ports = '2888:3888'
     #$zookeeper_hosts = inline_template("<%= @zookeeper_nodes.map {|x| x + ':' + @zookeeper_ports}.join ',' %>")
