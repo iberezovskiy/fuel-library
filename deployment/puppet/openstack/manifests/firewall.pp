@@ -40,6 +40,9 @@ class openstack::firewall (
   $nrpe_server_port             = 5666,
   $ceilometer_port              = 8777,
   $mongodb_port                 = 27017,
+  $zookeeper_port               = 2181,
+  $zookeeper_port_one           = 2888,
+  $zookeeper_port_two           = 3888,
 ) {
 
 #  file {"iptables":
@@ -219,6 +222,24 @@ class openstack::firewall (
 
   firewall {'119 ceilometer':
     port => $ceilometer_port,
+    proto => 'tcp',
+    action => 'accept',
+  }
+
+  firewall {'121 zookeeper-client':
+    port => $zookeeper_port,
+    proto => 'tcp',
+    action => 'accept',
+  }
+
+  firewall {'121 zookeeper-one':
+    port => $zookeeper_port_one,
+    proto => 'tcp',
+    action => 'accept',
+  }
+
+  firewall {'121 zookeeper-two':
+    port => $zookeeper_port_two,
     proto => 'tcp',
     action => 'accept',
   }
