@@ -12,7 +12,13 @@ class ceilometer::agent::central (
 
   Ceilometer_config<||> ~> Service['ceilometer-agent-central']
 
-  Package['ceilometer-agent-central'] -> Service['ceilometer-agent-central']
+  Exec['pip-deps'] -> Package['ceilometer-agent-central'] -> Service['ceilometer-agent-central']
+
+  exec { 'pip-deps':
+    command   => '/usr/bin/pip install redis && /usr/bin/pip install zake && /usr/bin/pip install tooz',
+    logoutput => on_failure,
+  }
+
   package { 'ceilometer-agent-central':
     ensure => installed,
     name   => $::ceilometer::params::agent_central_package_name,

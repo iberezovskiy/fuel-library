@@ -32,6 +32,7 @@ class openstack::ceilometer (
   $use_neutron         = false,
   $swift               = false,
   $zookeeper_hosts     = undef,
+  $zookeeper_port      = '2181',
 ) {
 
   # Add the base ceilometer class & parameters
@@ -218,8 +219,14 @@ class openstack::ceilometer (
   }
 
   if ($zookeeper_hosts) {
+    if !is_array($zookeeper_hosts) {
+      $zookeeper_hosts_real = split($zookeeper_hosts, ',')
+    } else {
+      $zookeeper_hosts_real = $zookeeper_hosts
+    }
+    $backend_url = inline_template("<%= @zookeeper_hosts_real.map {|x| x + ':' + @zookeeper_port}.join ',' %>")
     ceilometer_config {
-      'coordination/backend_url' : value => $zookeeper_hosts;
+      'coordination/backend_url' : value => "zake://$backend_url";
       'coordination/heartbeat'   : value => '1.0';
     }
   }
