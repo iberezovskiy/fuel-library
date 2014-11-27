@@ -28,7 +28,7 @@ class zookeeper::config(
   $leader_port             = 3888,
   $snap_count              = 10000,
   $log_dir                 = '/var/log/zookeeper',
-  $cfg_dir                 = '/etc/zookeeper/conf',
+  $cfg_dir                 = '/etc/zookeeper',
   $user                    = 'zookeeper',
   $group                   = 'zookeeper',
   $java_bin                = '/usr/bin/java',

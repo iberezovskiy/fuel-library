@@ -1,7 +1,7 @@
 # Class: zookeeper::service
 
 class zookeeper::service(
-  $cfg_dir = '/etc/zookeeper/conf',
+  $cfg_dir = '/etc/zookeeper',
 ){
   require zookeeper::install
 

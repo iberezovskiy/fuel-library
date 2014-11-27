@@ -19,7 +19,7 @@ class zookeeper(
   $client_ip   = $::ipaddress,
   $client_port = 2181,
   $log_dir     = '/var/log/zookeeper',
-  $cfg_dir     = '/etc/zookeeper/conf',
+  $cfg_dir     = '/etc/zookeeper',
   $user        = 'zookeeper',
   $group       = 'zookeeper',
   $java_bin    = '/usr/bin/java',

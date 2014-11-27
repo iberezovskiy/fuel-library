@@ -31,9 +31,9 @@ describe 'zookeeper::config' do
   context 'on debian-like system' do
     let(:user)    { 'zookeeper' }
     let(:group)   { 'zookeeper' }
-    let(:cfg_dir) { '/etc/zookeeper/conf' }
+    let(:cfg_dir) { '/etc/zookeeper' }
     let(:log_dir) { '/var/lib/zookeeper' }
-    let(:id_file) { '/etc/zookeeper/conf/myid' }
+    let(:id_file) { '/etc/zookeeper/myid' }
     let(:myid)    { /1/ }
 
     it_behaves_like 'debian-install', 'Debian', 'wheezy'
@@ -69,11 +69,11 @@ describe 'zookeeper::config' do
     } }
 
     it {
-      should contain_file('/etc/zookeeper/conf/environment').with_content(/INFO,ROLLINGFILE/)
+      should contain_file('/etc/zookeeper/environment').with_content(/INFO,ROLLINGFILE/)
     }
 
     it {
-      should contain_file('/etc/zookeeper/conf/zoo.cfg').with_content(/snapCount=15000/)
+      should contain_file('/etc/zookeeper/zoo.cfg').with_content(/snapCount=15000/)
     }
   end
 
@@ -85,7 +85,7 @@ describe 'zookeeper::config' do
     }}
 
     it { should contain_file(
-        '/etc/zookeeper/conf/zoo.cfg'
+        '/etc/zookeeper/zoo.cfg'
       ).with_content(/maxClientCnxns=#{max_conn}/) }
   end
 
@@ -100,7 +100,7 @@ describe 'zookeeper::config' do
     )}
 
   #  it { should contain_file(
-  #    '/etc/zookeeper/conf/quorum.yml'
+  #    '/etc/zookeeper/quorum.yml'
   #  )}
   #it { should contain_datacat__fragment("#{ipaddress}") }
 

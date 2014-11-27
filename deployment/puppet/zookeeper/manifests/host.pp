@@ -2,7 +2,7 @@
 
 define zookeeper::host($hostname = $title, $id, $client_ip, $election_port, $leader_port) {
   datacat_fragment { "${hostname}":
-        target => '/etc/zookeeper/conf/quorum.conf',
+        target => '/etc/zookeeper/quorum.conf',
         data => {
             'id'            => $id,
             'client_ip'     => $client_ip,
