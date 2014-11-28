@@ -18,8 +18,8 @@ class zookeeper(
   # fact from which we get public ip address
   $client_ip   = $::ipaddress,
   $client_port = 2181,
-  $log_dir     = '/var/log/zookeeper',
   $cfg_dir     = '/etc/zookeeper',
+  $log_dir     = '/var/log/zookeeper',
   $user        = 'zookeeper',
   $group       = 'zookeeper',
   $java_bin    = '/usr/bin/java',
@@ -43,7 +43,20 @@ class zookeeper(
   $peer_type               = 'UNSET',
 ) {
 
-  #anchor { 'zookeeper::start': }->
+  #case $::osfamily {
+  #  'RedHat': {
+  #    $cfg_dir = '/etc/zookeeper'
+  #  }
+  #  'Debian': {
+  #    $cfg_dir = '/etc/zookeeper/conf'
+  #  }
+  #  default: {
+  #    fail("Unsupported osfamily: ${::osfamily} operatingsystem: \
+#${::operatingsystem}, module ${module_name} only support osfamily \
+#RedHat and Debian")
+  #  }
+  #}
+
   class { 'zookeeper::install':
     ensure            => $ensure,
     snap_retain_count => $snap_retain_count,

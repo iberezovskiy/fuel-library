@@ -325,15 +325,7 @@ class osnailyfacter::cluster_ha {
   Exec { logoutput => true }
 
   if $ceilometer_hash['enabled'] {
-    #$zookeepers = filter_nodes($nodes_hash,'role','zookeeper')
-    #$zookeeper_internal_addresses = nodes_to_hash($zookeepers,'name','internal_address')
-    #$zookeeper_nodes = ipsort(values($zookeeper_internal_addresses))
-
-    # OR
     $zookeeper_hosts = fqdn_rotate($controller_nodes)
-
-    #$zookeeper_ports = '2888:3888'
-    #$zookeeper_hosts = inline_template("<%= @zookeeper_nodes.map {|x| x + ':' + @zookeeper_ports}.join ',' %>")
 
     class { 'zookeeper':
       servers   => $zookeeper_hosts,
