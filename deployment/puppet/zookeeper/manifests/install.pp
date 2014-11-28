@@ -13,7 +13,6 @@
 class zookeeper::install(
   $ensure            = present,
   $snap_retain_count = 3,
-  $cleanup_sh        = '/usr/lib/zookeeper/bin/zkCleanup.sh',
   $datastore         = '/var/lib/zookeeper',
   $user              = 'zookeeper',
 ) {
@@ -26,6 +25,7 @@ class zookeeper::install(
           ensure => $ensure
         }
       }
+      $zookeeper_bin_dir = '/usr/lib/zookeeper/bin'
     }
     'Debian': {
       $cron_package_name = 'cron'
@@ -39,6 +39,7 @@ class zookeeper::install(
           require => Package['zookeeper']
         }
       }
+      $zookeeper_bin_dir = '/usr/share/zookeeper/bin'
     }
     default: {
       fail("Unsupported osfamily: ${::osfamily} operatingsystem: \
@@ -46,6 +47,8 @@ ${::operatingsystem}, module ${module_name} only support osfamily \
 RedHat and Debian")
     }
   }
+
+  $cleanup_sh = "$zookeeper_bin_dir/zkCleanup.sh"
 
   # if !$cleanup_count, then ensure this cron is absent.
   if ($snap_retain_count > 0 and $ensure != 'absent') {
@@ -59,6 +62,19 @@ RedHat and Debian")
         user    => $user,
         require => Package['zookeeper'],
     }
+  }
+
+  file { "/usr/bin/zkCli":
+    ensure => 'link',
+    target => "$zookeeper_bin_dir/zkCli.sh",
+  } ->
+  file { "/usr/bin/zkCleanup":
+    ensure => 'link',
+    target => "$zookeeper_bin_dir/zkCleanup.sh",
+  } ->
+  file { "/usr/bin/zkServer":
+    ensure => 'link',
+    target => "$zookeeper_bin_dir/zkServer.sh",
   }
 }
 

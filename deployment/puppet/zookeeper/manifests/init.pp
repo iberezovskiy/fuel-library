@@ -28,7 +28,6 @@ class zookeeper(
   $pid_file    = '$PIDDIR/zookeeper.pid',
   $zoo_main    = 'org.apache.zookeeper.server.quorum.QuorumPeerMain',
   $lo4j_prop   = 'INFO,ROLLINGFILE',
-  $cleanup_sh  = '/usr/share/zookeeper/bin/zkCleanup.sh',
   $servers     = [''],
   $ensure      = present,
   $snap_count  = 10000,
@@ -62,7 +61,6 @@ class zookeeper(
     snap_retain_count => $snap_retain_count,
     datastore         => $datastore,
     user              => $user,
-    cleanup_sh        => $cleanup_sh,
   }->
   class { 'zookeeper::config':
     id                      => $id,
@@ -90,7 +88,4 @@ class zookeeper(
   class { 'zookeeper::service':
     cfg_dir => $cfg_dir,
   }
-  ->
-  anchor { 'zookeeper::end': }
-
 }

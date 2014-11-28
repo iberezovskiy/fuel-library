@@ -15,5 +15,4 @@ class zookeeper::service(
       File["${cfg_dir}/zoo.cfg"]
     ]
   }
-  # Package['zookeeperd'] -> Package['zookeeper']
 }
