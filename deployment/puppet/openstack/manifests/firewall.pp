@@ -41,7 +41,7 @@ class openstack::firewall (
   $ceilometer_port              = 8777,
   $mongodb_port                 = 27017,
   $zookeeper_client_port        = 2181,
-  $zookeeper_election_port,     = 2888,
+  $zookeeper_election_port      = 2888,
   $zookeeper_leader_port        = 3888,
 ) {
 
