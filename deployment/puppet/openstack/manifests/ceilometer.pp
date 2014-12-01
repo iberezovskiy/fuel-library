@@ -226,7 +226,7 @@ class openstack::ceilometer (
     }
     $backend_url = inline_template("<%= @zookeeper_hosts_real.map {|x| x + ':' + @zookeeper_port}.join ',' %>")
     ceilometer_config {
-      'coordination/backend_url' : value => "zake://$backend_url";
+      'coordination/backend_url' : value => "kazoo://$backend_url";
       'coordination/heartbeat'   : value => '1.0';
     }
   }
