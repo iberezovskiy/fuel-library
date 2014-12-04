@@ -325,7 +325,7 @@ class osnailyfacter::cluster_ha {
   Exec { logoutput => true }
 
   if $ceilometer_hash['enabled'] {
-    $zookeeper_hosts = fqdn_rotate($controller_nodes)
+    $zookeeper_hosts = ipsort($controller_nodes)
 
     class { 'zookeeper':
       servers   => $zookeeper_hosts,

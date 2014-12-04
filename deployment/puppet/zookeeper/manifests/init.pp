@@ -42,20 +42,6 @@ class zookeeper(
   $peer_type               = 'UNSET',
 ) {
 
-  #case $::osfamily {
-  #  'RedHat': {
-  #    $cfg_dir = '/etc/zookeeper'
-  #  }
-  #  'Debian': {
-  #    $cfg_dir = '/etc/zookeeper/conf'
-  #  }
-  #  default: {
-  #    fail("Unsupported osfamily: ${::osfamily} operatingsystem: \
-#${::operatingsystem}, module ${module_name} only support osfamily \
-#RedHat and Debian")
-  #  }
-  #}
-
   class { 'zookeeper::install':
     ensure            => $ensure,
     snap_retain_count => $snap_retain_count,

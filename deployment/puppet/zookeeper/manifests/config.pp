@@ -118,12 +118,4 @@ class zookeeper::config(
     content => template('zookeeper/log4j.properties.erb'),
     notify  => Class['zookeeper::service'],
   }
-
-  # keep track of all hosts in a cluster
-  zookeeper::host { $client_ip:
-    id            => $id,
-    client_ip     => $client_ip,
-    election_port => $election_port,
-    leader_port   => $leader_port,
-  }
 }
